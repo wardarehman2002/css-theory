@@ -1,1108 +1,1324 @@
-Q1. What is CSS and how do you add it to an HTML page?
-What does CSS stand for?
+# CSS Theory Assignment
 
-CSS stands for Cascading Style Sheets.
+---
 
-What is the purpose of CSS?
+## Q1 — What is CSS and How Do You Add It to an HTML Page?
 
-CSS is used to style and design web pages. HTML creates the structure of a webpage, while CSS controls how the webpage looks, including colors, fonts, spacing, layouts, and animations.
+### What is CSS?
 
-What problem does CSS solve?
+**CSS** stands for **Cascading Style Sheets**. It is a stylesheet language used to describe the visual presentation of HTML documents. Before CSS, all styling had to be done directly inside HTML using attributes like `color`, `font`, and `bgcolor`, which mixed structure with presentation. CSS solves this by **separating content (HTML) from design (CSS)**, making code cleaner, easier to maintain, and reusable across many pages.
 
-Without CSS, webpages would look plain and difficult to use. CSS separates design from content, making websites easier to maintain and update.
+---
 
-Three Ways to Add CSS
-1. Inline CSS
+### Three Methods of Adding CSS
 
-Inline CSS is written directly inside an HTML element using the style attribute.
+#### 1. External CSS (Recommended)
+A separate `.css` file is linked to the HTML using a `<link>` tag in the `<head>`. This is the **preferred method** in real projects because:
+- One stylesheet can style hundreds of pages
+- Changes are made in one place and reflected everywhere
+- Browser can **cache** the file, improving load speed
+- Keeps HTML clean and readable
 
-<p style="color: blue;">Hello World</p>
-2. Internal CSS
-
-Internal CSS is written inside a <style> tag in the HTML document.
-
-<style>
-p {
-  color: blue;
-}
-</style>
-3. External CSS
-
-External CSS is written in a separate .css file and linked to the HTML page.
-
-HTML:
-
-<link rel="stylesheet" href="style.css">
-
-CSS:
-
-p {
-  color: blue;
-}
-Which Method is Recommended?
-
-External CSS is recommended in professional projects because:
-
-Keeps HTML clean
-Makes maintenance easier
-Reuses styles across multiple pages
-Improves scalability
-Reduces duplicate code
-Why is External CSS Preferred Over Inline CSS?
-External CSS	Inline CSS
-Reusable	Not reusable
-Easy to maintain	Hard to maintain
-Cleaner code	Clutters HTML
-Better for large projects	Only suitable for small changes
-Code Examples of All Three Methods
-Inline CSS
-<p style="color:red;">Inline CSS Example</p>
-Internal CSS
+```html
+<!-- index.html -->
 <head>
-<style>
-p {
-  color: blue;
-}
-</style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-External CSS
-<link rel="stylesheet" href="style.css">
-p {
-  color: green;
-}
-Q2. Explain CSS Selectors with Examples
+<body>
+  <h1>Hello World</h1>
+</body>
+```
 
-CSS selectors are used to target HTML elements and apply styles.
-
-1. Element Selector
-
-Targets all elements of a specific type.
-
-p {
-  color: blue;
-}
-2. Class Selector
-
-Targets elements with a specific class.
-
-.card {
-  border: 1px solid black;
-}
-
-HTML:
-
-<div class="card">Content</div>
-3. ID Selector
-
-Targets a single element with a unique ID.
-
-#header {
-  background-color: lightgray;
-}
-
-HTML:
-
-<div id="header">Header</div>
-4. Group Selector
-
-Targets multiple elements together.
-
-h1, h2, h3 {
+```css
+/* styles.css */
+h1 {
   color: navy;
+  font-size: 2rem;
 }
-5. Descendant Selector
+```
 
-Targets elements inside another element at any level.
+---
 
-div p {
-  color: green;
+#### 2. Internal CSS
+CSS is written inside a `<style>` tag within the `<head>` of the HTML document. Useful for single-page projects or quick prototypes.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      h1 {
+        color: darkgreen;
+        font-family: Georgia, serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+  </body>
+</html>
+```
+
+---
+
+#### 3. Inline CSS
+CSS is written directly on a specific element using the `style` attribute. Should be avoided in real projects — it mixes structure and style, cannot be reused, and is hard to maintain.
+
+```html
+<h1 style="color: crimson; font-size: 24px;">Hello World</h1>
+```
+
+---
+
+### Why External CSS Is Preferred Over Inline CSS
+
+| Feature              | External CSS         | Inline CSS           |
+|----------------------|----------------------|----------------------|
+| Reusability          |  Across all pages  |  One element only  |
+| Maintainability      |  Edit one file     |  Edit every element|
+| Separation of concerns |  Yes             |  No                |
+| Browser caching      |  Yes               |  No                |
+| Specificity issues   |  Manageable        |  Hard to override  |
+
+---
+
+## Q2 — Explain CSS Selectors with Examples
+
+CSS selectors are patterns used to target HTML elements so styles can be applied to them. Different selectors have different **specificity** — a measure of how strong the rule is.
+
+---
+
+### Selector Types
+
+#### 1. Element Selector
+Targets all elements of a given HTML tag type.
+
+```css
+p {
+  color: #333;
+  line-height: 1.6;
 }
+```
 
-Example:
+---
 
-<div>
-  <section>
-    <p>Selected</p>
-  </section>
-</div>
-6. Child Selector
+#### 2. Class Selector
+Targets all elements with a specific `class` attribute. Prefixed with a dot (`.`).
+- **The same class can be used on multiple elements** — ideal for reusable styles.
 
-Targets direct children only.
-
-div > p {
-  color: red;
+```css
+.card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
 }
+```
 
-Example:
+---
 
-<div>
-  <p>Selected</p>
-</div>
-7. Universal Selector
+#### 3. ID Selector
+Targets a **single unique element** with a specific `id` attribute. Prefixed with `#`.
+- **An ID must be unique on a page** — you should never assign the same ID to more than one element.
+- IDs have **higher specificity** than classes.
 
-Targets all elements.
+```css
+#main-header {
+  background-color: #1a1a2e;
+  color: white;
+}
+```
 
+---
+
+#### 4. Group Selector
+Applies the same styles to multiple selectors, separated by commas.
+
+```css
+h1,
+h2,
+h3 {
+  font-family: "Georgia", serif;
+  font-weight: 700;
+}
+```
+
+---
+
+#### 5. Descendant Selector
+Targets an element that is **anywhere inside** another element (not necessarily a direct child).
+
+```css
+/* Targets ALL <a> tags inside .nav, regardless of nesting depth */
+.nav a {
+  text-decoration: none;
+  color: #555;
+}
+```
+
+---
+
+#### 6. Child Selector (`>`)
+Targets only **direct children** of an element — one level deep only.
+
+```css
+/* Only targets <li> elements that are DIRECT children of ul */
+ul > li {
+  list-style-type: disc;
+  color: darkblue;
+}
+```
+
+---
+
+#### 7. Universal Selector
+Targets **every element** on the page. Commonly used in CSS resets.
+
+```css
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
-Class vs ID
-Class	ID
-Can be reused	Must be unique
-Lower specificity	Higher specificity
-Used for groups	Used for one element
-Which Has Higher Specificity?
+```
 
-ID selector has higher specificity than a class selector.
+---
 
-Direct Child vs Any Descendant
+### Class vs ID — When to Use Which?
 
-Any descendant:
+| Feature             | Class (`.name`)               | ID (`#name`)                   |
+|---------------------|-------------------------------|--------------------------------|
+| Reusability         | Multiple elements           |   One element per page        |
+| Specificity score   | 0-1-0                         | 0-1-0 → 1-0-0 (higher)        |
+| JavaScript hook     | `querySelectorAll`            | `getElementById` (faster)      |
+| Use case            | Repeated components, styles   | Unique page sections, anchors  |
 
-div p
+> **Rule of thumb:** Use classes for styling; use IDs for unique anchors or JavaScript targeting.
 
-Direct child:
+**Which has higher specificity — class or ID?**
+An **ID** has higher specificity (score: `1-0-0`) than a class (score: `0-1-0`).
 
-div > p
-Can You Use the Same Class on Multiple Elements?
+---
 
-Yes.
+## Q3 — What is the CSS Box Model?
 
-<p class="text">Paragraph 1</p>
-<p class="text">Paragraph 2</p>
-Can You Use the Same ID on Multiple Elements?
+Every HTML element is rendered as a rectangular box. The **CSS Box Model** describes the four layers that make up this box, from inside to outside:
 
-No. IDs should be unique.
+```
++------------------------------+
+|          MARGIN              |  ← Outermost: space outside the element
+|  +------------------------+  |
+|  |        BORDER          |  |  ← Decorative border around the padding
+|  |  +------------------+  |  |
+|  |  |     PADDING      |  |  |  ← Space between content and border
+|  |  |  +------------+  |  |  |
+|  |  |  |  CONTENT   |  |  |  |  ← Innermost: text, images, etc.
+|  |  |  +------------+  |  |  |
+|  |  +------------------+  |  |
+|  +------------------------+  |
++------------------------------+
+```
 
-Code Task (All Seven Selectors)
-/* Element */
-p {
-  color: blue;
-}
+---
 
-/* Class */
-.card {
-  padding: 10px;
-}
+### The Four Layers
 
-/* ID */
-#header {
-  background: gray;
-}
+| Layer     | Description                                                                 |
+|-----------|-----------------------------------------------------------------------------|
+| **Content** | The innermost area where text, images, and child elements live. Controlled by `width` and `height`. |
+| **Padding** | Space **inside** the border, between the content and the border. It is part of the element's background. |
+| **Border** | A line that wraps around the padding and content. Can be styled with `border-width`, `border-style`, `border-color`. |
+| **Margin** | Space **outside** the border. It separates the element from neighboring elements. Margins are always transparent. |
 
-/* Group */
-h1, h2, h3 {
-  color: navy;
-}
+---
 
-/* Descendant */
-div p {
-  color: green;
-}
+### `box-sizing: content-box` vs `box-sizing: border-box`
 
-/* Child */
-div > p {
-  font-weight: bold;
-}
+#### `content-box` (browser default)
+`width` refers to the **content area only**. Padding and border are added **on top** of the declared width.
 
-/* Universal */
-* {
-  margin: 0;
-}
-Q3. What is the CSS Box Model?
-
-Every HTML element is treated as a rectangular box.
-
-The CSS Box Model consists of four layers:
-
-Margin
- └── Border
-      └── Padding
-           └── Content
-1. Content
-
-The content area contains text, images, and other information.
-
-Example:
-
-width: 300px;
-height: 200px;
-Which Layer is the Innermost?
-
-Content is the innermost layer.
-
-2. Padding
-
-Padding creates space between the content and the border.
-
-Example:
-
-padding: 20px;
-Is Padding Inside or Outside the Border?
-
-Padding is inside the border.
-
-3. Border
-
-The border surrounds the padding and content.
-
-Example:
-
-border: 2px solid black;
-4. Margin
-
-Margin creates space outside the border.
-
-Example:
-
-margin: 20px;
-What Does margin: 0 auto Do?
-
-It horizontally centers a block element.
-
-margin: 0 auto;
-box-sizing Property
-content-box (Default)
-
-Width and height apply only to the content area.
-
-box-sizing: content-box;
-
-Example:
-
-width: 300px;
-padding: 20px;
-
-Actual width becomes:
-
-300 + 20 + 20 = 340px
-border-box
-
-Width includes content, padding, and border.
-
-box-sizing: border-box;
-With border-box, Does Width Include Padding?
-
-Yes.
-
-Padding and border are included inside the specified width.
-
-Which One is Used in Professional Projects?
-
-Most professional projects use:
-
-box-sizing: border-box;
-
-because it makes layouts easier to manage and calculate.
-
-Code Task
+```css
+/* Total rendered width = 300 + 20 + 20 + 2 + 2 = 344px */
 .box {
   width: 300px;
   padding: 20px;
   border: 2px solid black;
-  margin: 16px;
+  box-sizing: content-box;
+}
+```
+
+#### `border-box` (industry standard )
+`width` **includes** padding and border. The content area shrinks to accommodate them. This makes sizing predictable and is used in all professional projects.
+
+```css
+/* Total rendered width = exactly 300px */
+.box {
+  width: 300px;
+  padding: 20px;
+  border: 2px solid black;
   box-sizing: border-box;
 }
-Q4. Explain CSS Colors. What are the different ways to define a color?
+```
 
-Colors are used in CSS to style text, backgrounds, borders, shadows, and other elements.
+---
 
-CSS provides several ways to define colors.
+### Code Task — `.box` Rule
 
-1. Named Colors
+```css
+.box {
+  width: 300px;
+  padding: 20px;
+  border: 2px solid #333;
+  margin: 16px;
+  box-sizing: border-box;
+  /* Total visual width = 300px (padding + border are absorbed within) */
+  /* Content area = 300 - 20 - 20 - 2 - 2 = 256px */
+}
+```
 
-CSS has predefined color names.
+### `margin: 0 auto` Explained
+When applied to a **block element with a defined width**, `margin: 0 auto` sets top/bottom margin to `0` and left/right margin to `auto`, which distributes equal space on both sides — **centering the element horizontally** within its container.
 
+```css
+.container {
+  width: 800px;
+  margin: 0 auto; /* Centers the container on the page */
+}
+```
+
+---
+
+## Q4 — Explain CSS Colors
+
+CSS provides five formats to define colors:
+
+---
+
+### 1. Named Colors
+English names for a set of ~140 predefined colors.
+
+```css
+color: orange;
+background-color: tomato;
+```
+
+---
+
+### 2. HEX (`#RRGGBB`)
+A hexadecimal code representing Red, Green, Blue channels from `00` (none) to `FF` (full). **Most commonly used by developers** — clean, short, and widely supported.
+
+```css
+color: #F97316; /* Orange */
+```
+
+---
+
+### 3. RGB (`rgb(r, g, b)`)
+Defines color using Red, Green, Blue values from `0` to `255`.
+
+```css
+color: rgb(249, 115, 22); /* Orange */
+```
+
+---
+
+### 4. RGBA (`rgba(r, g, b, a)`)
+Same as RGB with an added **Alpha** (transparency) channel from `0` (fully transparent) to `1` (fully opaque). The 'A' stands for **Alpha**.
+
+```css
+color: rgba(249, 115, 22, 0.7); /* Orange at 70% opacity */
+```
+
+---
+
+### 5. HSL (`hsl(hue, saturation%, lightness%)`)
+Defines color using Hue (0–360 degrees on a color wheel), Saturation, and Lightness. Great for creating color themes and tints programmatically.
+
+```css
+color: hsl(24, 95%, 53%); /* Orange */
+```
+
+---
+
+### Code Task — Orange in All Five Formats
+
+```css
+/* #F97316 in all five CSS color formats */
+
+.orange-named     { color: orange; }              /* closest named color */
+.orange-hex       { color: #F97316; }
+.orange-rgb       { color: rgb(249, 115, 22); }
+.orange-rgba      { color: rgba(249, 115, 22, 1); }
+.orange-hsl       { color: hsl(24, 95%, 53%); }
+```
+
+---
+
+### `opacity: 0.5` vs `rgba(0, 0, 0, 0.5)`
+
+| Property                    | What it affects                                              | Affects children? |
+|-----------------------------|--------------------------------------------------------------|-------------------|
+| `opacity: 0.5`              | The **entire element** including its children, text, borders |  **Yes** — inherited by all child elements |
+| `rgba(0, 0, 0, 0.5)`        | Only the **specific color property** it is assigned to       |  **No** — children unaffected |
+
+```css
+/* BAD: the text inside .overlay also becomes transparent */
+.overlay {
+  background-color: black;
+  opacity: 0.5;
+}
+
+/* GOOD: only the background is transparent, text stays opaque */
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+```
+
+---
+
+## Q5 — What are CSS Units?
+
+CSS units fall into two categories: **absolute** (fixed size) and **relative** (relative to something else).
+
+---
+
+### Unit Reference Table
+
+| Unit  | Relative To                            | Best Use Case                          |
+|-------|----------------------------------------|----------------------------------------|
+| `px`  | Fixed screen pixel                     | Borders, shadows, fixed-size elements  |
+| `%`   | Parent element's dimension             | Fluid widths, responsive layouts       |
+| `rem` | Root element (`<html>`) font-size      | Font sizes, spacing (accessibility ) |
+| `em`  | Nearest parent's font-size             | Component-relative spacing             |
+| `vh`  | 1% of viewport height                 | Full-screen sections, hero areas       |
+| `vw`  | 1% of viewport width                  | Full-width elements, fluid typography  |
+
+---
+
+### Detailed Explanations
+
+#### `px` — Pixels
+Absolute unit. `1px` is one CSS pixel (may be fractional on HiDPI screens). Predictable but not flexible.
+
+```css
+.divider {
+  border-top: 1px solid #eee;
+}
+```
+
+---
+
+#### `%` — Percentage
+Relative to the **parent element's** corresponding dimension (width or height).
+
+```css
+.column {
+  width: 50%; /* Half the width of its parent */
+}
+```
+
+---
+
+#### `rem` — Root Em
+Relative to the **`<html>` root font-size**, which defaults to `16px` in all browsers. `1rem = 16px` by default. Unlike `em`, it never compounds. **Preferred for font-size** because when a user changes their browser's default font size, rem-based text scales accordingly — improving **accessibility**.
+
+```css
+body {
+  font-size: 1rem;   /* 16px */
+}
 h1 {
-  color: orange;
+  font-size: 2.5rem; /* 40px */
 }
-Example
-color: orange;
-2. HEX Colors
+```
 
-HEX (Hexadecimal) colors start with # and contain six characters.
+---
 
-color: #F97316;
-Format
-#RRGGBB
+#### `em` — Em
+Relative to the **nearest parent's font-size**. Can compound if nested, which makes it tricky but useful for components that should scale with their context.
 
-Example:
+```css
+.button {
+  font-size: 1rem;
+  padding: 0.75em 1.5em; /* Scales with the button's own font-size */
+}
+```
 
-color: #FF0000;
-3. RGB Colors
+---
 
-RGB stands for Red, Green, Blue.
+#### `vh` — Viewport Height
+`1vh = 1% of the browser viewport height`. `vh` stands for **Viewport Height**.
 
-color: rgb(249, 115, 22);
-Format
-rgb(red, green, blue)
-
-Each value ranges from 0–255.
-
-4. RGBA Colors
-
-RGBA is RGB with an Alpha channel.
-
-color: rgba(249, 115, 22, 0.5);
-What Does the "A" Stand For?
-
-Alpha (transparency)
-
-Values:
-
-0   = fully transparent
-1   = fully visible
-5. HSL Colors
-
-HSL stands for:
-
-Hue
-Saturation
-Lightness
-color: hsl(25, 95%, 53%);
-Which Format Is Most Commonly Used?
-
-Most developers commonly use:
-
-HEX
-RGB/RGBA
-
-because they are widely supported and easy to work with.
-
-Opacity vs RGBA
-Opacity
-opacity: 0.5;
-
-Affects:
-
-Element
-Text
-Images
-Child elements
-
-Everything becomes transparent.
-
-RGBA
-background: rgba(0, 0, 0, 0.5);
-
-Only affects the color itself.
-
-Child elements remain unchanged.
-
-Does Opacity Affect Child Elements?
-
- Yes
-
-Does RGBA Affect Child Elements?
-
- No
-
-Code Task
-
-Same Orange Color (#F97316) in All Formats
-
-/* Named */
-color: orange;
-
-/* HEX */
-color: #F97316;
-
-/* RGB */
-color: rgb(249, 115, 22);
-
-/* RGBA */
-color: rgba(249, 115, 22, 1);
-
-/* HSL */
-color: hsl(25, 95%, 53%);
-Q5. What are CSS Units? Explain px, %, rem, em, vh, and vw.
-
-CSS units are used to define sizes, spacing, widths, heights, and fonts.
-
-1. px (Pixels)
-
-Fixed-size unit.
-
-font-size: 16px;
-Use Case
-
-Precise sizing of borders and icons.
-
-2. % (Percentage)
-
-Relative to the parent element.
-
-width: 50%;
-Use Case
-
-Responsive layouts.
-
-% Is Relative To?
-
- Parent Element
-
-3. rem (Root Em)
-
-Relative to the root (html) font size.
-
-font-size: 2rem;
-What Is 1rem Equal To By Default?
-1rem = 16px
-
-(Default browser size)
-
-Use Case
-
-Accessible typography.
-
-4. em
-
-Relative to the font size of the parent element.
-
-font-size: 1.5em;
-Use Case
-
-Component-based spacing.
-
-5. vh (Viewport Height)
-
-Relative to viewport height.
-
-height: 100vh;
-What Does vh Stand For?
-
-Viewport Height
-
-Use Case
-
-Full-screen hero sections.
-
-6. vw (Viewport Width)
-
-Relative to viewport width.
-
-width: 50vw;
-Use Case
-
-Responsive sizing based on screen width.
-
-Golden Rule for CSS Units
-Font Sizes
-
-Use:
-
-rem
-
-because it improves accessibility.
-
-Widths
-
-Use:
-
-%
-
-or
-
-max-width
-
-for responsive layouts.
-
-Full-Screen Sections
-
-Use:
-
-100vh
-Why Is rem Better Than px?
-
-rem respects browser font settings and user accessibility preferences.
-
-Users can zoom or increase text size more easily.
-
-Code Task
-
-Hero Section
-
+```css
 .hero {
-  height: 100vh;
-  max-width: 75rem;
-  margin: 0 auto;
+  height: 100vh; /* Full screen height */
+}
+```
 
-  font-size: clamp(1.5rem, 4vw, 3rem);
+---
 
+#### `vw` — Viewport Width
+`1vw = 1% of the browser viewport width`. Great for fluid typography that scales with screen size.
+
+```css
+h1 {
+  font-size: 5vw; /* Gets bigger on wide screens */
+}
+```
+
+---
+
+### Why `rem` is Better Than `px` for Font-Size (Accessibility)
+
+If you set all font sizes in `px`, they are **fixed** regardless of the user's browser preference. Users who increase their default font size (visually impaired users, older users) get no benefit. With `rem`, all sizes are relative to the root, so changing the root size (or letting the user's browser preference apply) **scales the entire UI proportionally**.
+
+---
+
+### Code Task — Hero Section
+
+```css
+/* Hero section: full viewport height, scalable font, rem max-width */
+.hero {
+  height: 100vh;               /* Full viewport height (vh) */
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  padding: 2rem;               /* Rem for spacing */
+  background-color: #0f172a;
 }
-Q6. What is CSS Specificity and how does the Cascade work?
 
-When multiple CSS rules target the same element, the browser decides which rule wins.
+.hero__content {
+  max-width: 60rem;            /* Max width in rem (~960px) */
+  width: 100%;
+  text-align: center;
+}
 
-This process is called:
+.hero__title {
+  font-size: clamp(2rem, 5vw, 4rem); /* Fluid: vw scales with viewport, clamped with rem min/max */
+  color: white;
+  margin-bottom: 1rem;
+}
 
-Specificity
-Cascade
-Specificity
+.hero__subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: #94a3b8;
+}
+```
 
-Specificity is a priority score assigned to selectors.
+---
 
-Higher specificity wins.
+## Q6 — What is CSS Specificity and How Does the Cascade Work?
 
-Specificity Scores
-Selector	Score
-Inline Style	1000
-ID	100
-Class	10
-Element	1
-Universal (*)	0
-Which Has Higher Specificity?
+### Specificity
 
-Between:
+**Specificity** is the scoring system the browser uses to decide which CSS rule wins when multiple rules target the same element. It is calculated as a 3-part score: **(A - B - C)**.
 
-.text
+| Selector Type             | Score (A-B-C) | Example                    |
+|---------------------------|---------------|----------------------------|
+| Inline style              | `1-0-0-0`     | `style="color: red"`       |
+| ID selector               | `1-0-0`       | `#intro`                   |
+| Class / attribute / pseudo-class | `0-1-0` | `.text`, `[type]`, `:hover` |
+| Element / pseudo-element  | `0-0-1`       | `p`, `h1`, `::before`      |
+| Universal selector        | `0-0-0`       | `*`                        |
 
-and
+Scores are compared **left to right**. A rule with score `0-1-0` always beats `0-0-10` — you can't "overflow" from a lower tier to a higher one.
 
-p
+---
 
- Class selector wins.
+### The Cascade
 
-What Specificity Score Does Inline Style Have?
-1000
+The **cascade** is the algorithm that determines which styles apply when there are conflicts. It considers three factors in order:
 
-Highest normal specificity.
+1. **Origin & Importance** — Browser default styles < Author styles < `!important` author styles
+2. **Specificity** — Higher score wins
+3. **Source Order** — When specificity is equal, the **rule that appears last in the CSS** wins
 
-What Is the Cascade?
+---
 
-The cascade decides styles using:
+### Inheritance
 
-1. Importance
-!important
-2. Specificity
+Some CSS properties (like `color`, `font-family`, `line-height`) are **inherited** by child elements from their parents. Others (like `margin`, `padding`, `border`) are **not** inherited by default.
 
-Higher score wins.
+```css
+body {
+  font-family: Georgia, serif; /* Inherited by all children */
+  color: #333;                 /* Inherited by all children */
+}
+```
 
-3. Source Order
+---
 
-If specificity is equal, the last rule wins.
+### `!important`
 
-If Two Rules Have Equal Specificity?
+Appending `!important` to a declaration overrides normal specificity rules and forces the rule to win (unless another `!important` rule has higher specificity). **It should be avoided** because:
+- It breaks the natural cascade and makes debugging extremely difficult
+- It creates an "arms race" where more and more `!important` rules accumulate
+- It signals a specificity problem that should be solved structurally
 
-The rule written later wins.
-
-Example:
-
+```css
+/* Avoid this unless absolutely necessary */
 p {
-  color: blue;
+  color: blue !important;
 }
+```
 
-p {
-  color: red;
-}
+---
 
-Result:
+### Code Task — Three Rules, One Element
 
-color: red;
-What Does !important Do?
-color: red !important;
-
-Overrides normal CSS rules.
-
-Why Should It Be Avoided?
-Hard to maintain
-Causes debugging issues
-Breaks normal cascade behavior
-Code Task
-
-HTML
-
+```html
 <p id="intro" class="text">Hello</p>
+```
 
-CSS
-
+```css
+/* Rule 1 — Element selector: specificity 0-0-1 */
 p {
   color: blue;
 }
 
+/* Rule 2 — Class selector: specificity 0-1-0 (wins over Rule 1) */
 .text {
   color: green;
 }
 
+/* Rule 3 — ID selector: specificity 1-0-0 (wins over both) */
 #intro {
   color: red;
 }
-Which Color Wins?
-#intro
+```
 
-because ID specificity (100) is higher than:
+**Winner: `color: red`** from Rule 3.
 
-Class (10)
-Element (1)
+**Why?** The ID selector `#intro` has the highest specificity score (`1-0-0`), beating the class selector `.text` (`0-1-0`) and the element selector `p` (`0-0-1`). The text "Hello" will appear **red**.
 
-Final color:
+> If two rules had equal specificity, the one **later in the file** would win (source order).
 
-Red
-Q7. Explain CSS Flexbox. How does it differ from block layout?
+---
 
-Flexbox (Flexible Box Layout) is a one-dimensional layout system used to arrange items in rows or columns.
+## Q7 — Explain CSS Flexbox
 
-Normally, block elements appear one below another. Flexbox gives us better control over alignment, spacing, and positioning.
+### What is Flexbox?
 
-What does display: flex do?
+**Flexbox** (Flexible Box Layout) is a **1-dimensional layout system** that arranges items in a row or column and distributes space between them intelligently. It was designed to solve layout problems that were painful with block/float-based layouts.
 
-When display: flex is applied to a container, all direct child elements become flex items.
+When you set `display: flex` on a container:
+- The container becomes a **flex container**
+- Its direct children become **flex items**
+- Items align on the **main axis** (horizontal by default) and the **cross axis** (vertical by default)
 
+---
+
+### Key Properties
+
+#### `flex-direction`
+Sets the **main axis** direction.
+
+```css
 .container {
-  display: flex;
+  flex-direction: row;           /* Default: left to right */
+  flex-direction: row-reverse;   /* Right to left */
+  flex-direction: column;        /* Top to bottom */
+  flex-direction: column-reverse;
 }
-flex-direction
+```
 
-Controls the direction of flex items.
+---
 
-Row (Default)
+#### `justify-content`
+Aligns items along the **main axis** (horizontal when `flex-direction: row`).
+
+```css
 .container {
-  display: flex;
-  flex-direction: row;
-}
-Column
-.container {
-  display: flex;
-  flex-direction: column;
-}
-justify-content
-
-Aligns items along the main axis.
-
-.container {
-  display: flex;
+  justify-content: flex-start;    /* Default */
+  justify-content: flex-end;
   justify-content: center;
+  justify-content: space-between; /* Equal gaps between items */
+  justify-content: space-around;
+  justify-content: space-evenly;
 }
+```
 
-Common values:
+---
 
-flex-start
-center
-flex-end
-space-between
-space-around
-space-evenly
-align-items
+#### `align-items`
+Aligns items along the **cross axis** (vertical when `flex-direction: row`).
 
-Aligns items along the cross axis.
-
+```css
 .container {
+  align-items: stretch;    /* Default: stretch to fill */
+  align-items: center;     /* Center vertically */
+  align-items: flex-start;
+  align-items: flex-end;
+  align-items: baseline;
+}
+```
+
+> **Key difference:** `justify-content` = main axis; `align-items` = cross axis.
+
+---
+
+#### `flex-wrap`
+By default, all flex items try to fit on one line. `flex-wrap: wrap` allows items to **wrap to the next line** when they run out of space.
+
+```css
+.container {
+  flex-wrap: wrap; /* Items drop to next row when needed */
+}
+```
+
+---
+
+#### `gap`
+Sets the spacing between flex items (row and column gap combined).
+
+```css
+.container {
+  gap: 16px;           /* Same gap between rows and columns */
+  gap: 12px 24px;      /* row-gap column-gap */
+}
+```
+
+---
+
+#### `flex: 1`
+Applied to a flex **item**, it means: take up all available remaining space, equally distributed among all items with `flex: 1`. It is shorthand for `flex: 1 1 0` (grow, shrink, basis).
+
+```css
+.sidebar { flex: 0 0 250px; } /* Fixed sidebar */
+.main    { flex: 1; }         /* Main takes remaining space */
+```
+
+---
+
+### Centering Both Horizontally and Vertically
+
+```css
+.centered-container {
   display: flex;
-  align-items: center;
+  justify-content: center; /* Horizontal center */
+  align-items: center;     /* Vertical center */
+  height: 100vh;
 }
-Difference Between justify-content and align-items
-Property	Controls
-justify-content	Horizontal alignment (row layout)
-align-items	Vertical alignment (row layout)
-flex-wrap
+```
 
-Controls whether items stay on one line or move to a new line.
+---
 
-.container {
-  display: flex;
-  flex-wrap: wrap;
-}
-What does flex-wrap: wrap do?
+### Real-World Use Cases
 
-It allows items to move onto the next line when there is not enough space.
+1. **Navigation bars** — logo left, links right, vertically centered
+2. **Card grids** — rows of cards with equal spacing that wrap on smaller screens
 
-gap
+---
 
-Adds space between flex items.
+### Code Task — Flexbox Navbar
 
-.container {
-  gap: 20px;
-}
-flex: 1
-.item {
-  flex: 1;
-}
-What does flex: 1 do?
+```css
+/* Navbar: logo left, nav links right, vertically centred, with gap */
 
-It allows items to grow equally and share available space.
-
-How to Center an Element Horizontally and Vertically
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-Real-World Use Cases
-Navigation Bar
-Logo on left
-Menu on right
-Card Layout
-Product cards
-Feature sections
-Code Task: Flexbox Navbar
 .navbar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 16px 32px;
+  justify-content: space-between; /* Logo left, links right */
+  align-items: center;            /* Vertically centred */
+  padding: 0 2rem;
+  height: 64px;
+  background-color: #1e293b;
 }
 
-.nav-links {
+.navbar__logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+  text-decoration: none;
+}
+
+.navbar__links {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 2rem;           /* Space between individual links */
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-Q8. What are CSS Pseudo-classes and Pseudo-elements?
 
-Pseudo-classes and pseudo-elements allow styling based on state or virtual content.
-
-Difference Between Them
-Pseudo-class (:)
-
-Styles an element based on its state.
-
-Examples:
-
-:hover
-:focus
-:nth-child()
-:not()
-Pseudo-element (::)
-
-Styles part of an element or adds virtual content.
-
-Examples:
-
-::before
-::after
-::placeholder
-:hover
-
-Applies styles when the mouse is over an element.
-
-button:hover {
-  background: orange;
+.navbar__links a {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
 }
-:focus
 
-Applies styles when an input receives focus.
+.navbar__links a:hover {
+  color: #f97316;
+}
+```
 
+```html
+<!-- Corresponding HTML structure -->
+<nav class="navbar">
+  <a href="/" class="navbar__logo">BrandName</a>
+  <ul class="navbar__links">
+    <li><a href="/about">About</a></li>
+    <li><a href="/work">Work</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+</nav>
+```
+
+---
+
+## Q8 — What are CSS Pseudo-classes and Pseudo-elements?
+
+### The Difference
+
+| Feature         | Pseudo-class (`:`)                              | Pseudo-element (`::`)                              |
+|-----------------|-------------------------------------------------|----------------------------------------------------|
+| Syntax          | Single colon: `:hover`                          | Double colon: `::before`                           |
+| Purpose         | Style based on **state or position**            | Style a **specific part** of an element            |
+| Adds to DOM?    | No                                              | No — creates a **virtual element** (not real HTML) |
+| Example         | `:hover`, `:focus`, `:nth-child()`              | `::before`, `::after`, `::placeholder`             |
+
+> `::before` and `::after` do **not** add real HTML elements. They are rendered by the browser but do not appear in the DOM. They **require the `content` property** to render — without it, they are invisible (even `content: ""` is needed for decorative uses).
+
+---
+
+### Pseudo-classes
+
+#### `:hover`
+Applies when the mouse is over an element.
+
+```css
+.button:hover {
+  background-color: #f97316;
+  cursor: pointer;
+}
+```
+
+---
+
+#### `:focus`
+Applies when an element is focused (e.g., via keyboard tab or click on input).
+
+```css
 input:focus {
-  border-color: blue;
+  outline: 2px solid #3b82f6;
+  border-color: #3b82f6;
 }
-:nth-child()
+```
 
-Targets elements based on position.
+---
 
-li:nth-child(2n) {
-  background: lightgray;
+#### `:nth-child()`
+Selects elements based on their position among siblings. `:nth-child(2n)` selects **every even-numbered** element (2nd, 4th, 6th...).
+
+```css
+/* Zebra stripe a table */
+tr:nth-child(even) {
+  background-color: #f8fafc;
 }
-:nth-child(2n) Selects Which Elements?
 
-Selects:
-
-2nd
-4th
-6th
-8th
-...
-
-All even-numbered elements.
-
-How to Style Every 3rd List Item?
+/* Style every 3rd list item */
 li:nth-child(3n) {
-  color: red;
+  color: #f97316;
+  font-weight: bold;
 }
-:not()
+```
 
-Targets elements that do NOT match a selector.
+---
 
-p:not(.active) {
-  color: gray;
+#### `:not()`
+Selects elements that do **not** match the given selector.
+
+```css
+/* Style all buttons except the primary one */
+.button:not(.button--primary) {
+  background-color: transparent;
+  border: 1px solid #ccc;
 }
-::before
+```
 
-Adds virtual content before an element.
+---
 
+### Pseudo-elements
+
+#### `::before` and `::after`
+Insert virtual content before or after an element's actual content. The `content` property is required.
+
+```css
 .featured::before {
-  content: "★ ";
+  content: "H ";       /* content property is required */
+  color: #f97316;
+  font-weight: bold;
 }
-::after
+```
 
-Adds virtual content after an element.
+---
 
-.featured::after {
-  content: " New";
-}
-::placeholder
+#### `::placeholder`
+Styles the placeholder text of an `<input>` or `<textarea>`.
 
-Styles placeholder text.
-
+```css
 input::placeholder {
-  color: gray;
+  color: #94a3b8;
+  font-style: italic;
 }
-Does ::before Add a Real HTML Element?
+```
 
- No
+---
 
-It creates virtual content only.
+### Code Task — Hover, `::before`, and Placeholder
 
-What Property Is Required?
-content: "";
-
-Without the content property, ::before and ::after will not appear.
-
-Code Task
-button:hover {
-  background-color: orange;
+```css
+/* 1. Button turns orange on hover */
+.btn {
+  background-color: #1e293b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
 }
 
-.featured::before {
-  content: "H ";
+.btn:hover {
+  background-color: #f97316;
 }
 
+/* 2. Add "H " before every .featured list item using ::before */
+ul li.featured::before {
+  content: "H ";        /* content property is REQUIRED */
+  color: #f97316;
+  font-weight: 700;
+}
+
+/* 3. Style placeholder text grey in an input */
 input::placeholder {
-  color: gray;
+  color: #9ca3af;
+  font-style: italic;
 }
-Q9. Explain CSS Transitions and Animations
+```
 
-CSS can create animations without JavaScript.
+---
 
-Transition vs Animation
-Transition
+## Q9 — Explain CSS Transitions and Animations
 
-Moves smoothly from one state to another.
+### Transitions vs Animations
 
-Needs a trigger.
+| Feature         | Transitions                                     | Animations (`@keyframes`)                          |
+|-----------------|-------------------------------------------------|----------------------------------------------------|
+| Trigger needed? |  Yes — requires a state change (`:hover`, `:focus`, class toggle via JS) |  No — can run automatically on page load |
+| Control         | Start → End (2 states only)                     | Full keyframe control (unlimited states)           |
+| Looping         | Not natively                                    |  Yes — `animation-iteration-count: infinite`     |
+| Use case        | Hover effects, focus states, toggles            | Loading spinners, entrance animations, loaders     |
 
-Example:
+---
 
-button:hover {
-  background: orange;
+### Transitions
+
+The `transition` shorthand: `property | duration | timing-function | delay`
+
+```css
+.button {
+  transition: background-color 0.3s ease 0s;
+  /* OR multiple properties: */
+  transition: background-color 0.3s ease, transform 0.2s ease-out;
 }
-Animation
+```
 
-Runs automatically using keyframes.
+#### Timing Functions
 
-animation: fadeIn 1s ease;
-Transition Shorthand
-transition: property duration timing-function delay;
+| Function    | Description                                                        |
+|-------------|-------------------------------------------------------------------|
+| `ease`      | Starts slow, speeds up, ends slow. The default — feels natural.   |
+| `ease-in`   | Starts slow, ends fast. Good for elements leaving the screen.     |
+| `ease-out`  | Starts fast, ends slow. Good for elements entering the screen.    |
+| `linear`    | Constant speed throughout. Good for spinners, progress bars.      |
 
-Example:
+---
 
-transition: all 0.3s ease 0s;
-Timing Functions
-ease
+### `@keyframes` and Animations
 
-Starts slow, speeds up, slows down.
-
-transition-timing-function: ease;
-ease-in
-
-Starts slowly.
-
-transition-timing-function: ease-in;
-ease-out
-
-Ends slowly.
-
-transition-timing-function: ease-out;
-linear
-
-Same speed throughout.
-
-transition-timing-function: linear;
-Common Transition Triggers
-hover
-focus
-active
-checked
-Can You Have Multiple Transitions?
-
-Yes.
-
-transition:
-  transform 0.3s ease,
-  box-shadow 0.3s ease;
-@keyframes
-
-Defines animation stages.
-
-@keyframes fadeIn {
+```css
+@keyframes fadeInUp {
   from {
     opacity: 0;
+    transform: translateY(30px);
   }
-
-  to {
-    opacity: 1;
-  }
-}
-Animation Shorthand
-animation: fadeIn 1s ease 0s 1 forwards;
-animation-fill-mode: forwards
-animation-fill-mode: forwards;
-
-Keeps the final animation state after completion.
-
-animation-iteration-count: infinite
-animation-iteration-count: infinite;
-
-Repeats forever.
-
-Why Is Transform Faster Than Width?
-
-transform uses GPU acceleration and does not trigger layout recalculations.
-
-Properties like:
-
-width
-margin
-height
-
-are slower because they force the browser to recalculate layouts.
-
-Code Task
-.card {
-  padding: 20px;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-
-  animation: fadeUp 0.8s ease forwards;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-Q10. Responsive Web Design, Media Queries, CSS Variables & Mobile-First
 
-Responsive Web Design ensures websites work properly on all screen sizes.
-
-Part A: Media Queries
-What is a Media Query?
-
-A media query applies CSS only when specific conditions are met.
-
-Syntax:
-
-@media (min-width: 768px) {
-  /* CSS */
+.card {
+  animation: fadeInUp 0.6s ease-out forwards;
+  /* animation: name | duration | timing | fill-mode */
 }
-Standard Industry Breakpoints
-Device	Width
-Mobile	0–767px
-Tablet	768px+
-Laptop	1024px+
-Desktop	1280px+
-Part B: Mobile-First Approach
+```
 
-Mobile-first means designing for mobile screens first and then adding styles for larger screens.
+#### `animation-fill-mode: forwards`
+After the animation completes, the element **stays in the final keyframe state** rather than snapping back to its original styles.
 
-Why Is Mobile-First Preferred?
-Better performance
-Better user experience
-Easier scaling
-Industry standard
-Mobile-First Uses Which Media Query?
+#### `animation-iteration-count: infinite`
+Makes the animation **loop forever**, never stopping. Useful for loading spinners or pulsing effects.
 
- min-width
+---
 
-Example:
+### Why Prefer `transform` and `opacity` for Animations?
 
-@media (min-width: 768px) {
-}
-Desktop-First Uses
-max-width
-Part C: CSS Variables
+Animating properties like `width`, `margin`, or `top` causes the browser to **recalculate layout (reflow)** and **repaint** the entire page on every frame — extremely expensive on the GPU/CPU.
 
-CSS Variables are custom properties that store reusable values.
+`transform` and `opacity` are **composited on the GPU** and do not trigger layout recalculation. This means they run at a smooth **60fps** even on lower-end devices.
 
-Define Variables
-:root {
-  --primary-color: #F97316;
-  --spacing: 16px;
-}
-Use Variables
-button {
-  background: var(--primary-color);
-}
-var() with Fallback
-color: var(--text-color, black);
-Difference
-var(--color)
+| Property        | Triggers layout reflow? | Performance   |
+|-----------------|------------------------|---------------|
+| `transform`     |  No                   |  Fast (GPU) |
+| `opacity`       |  No                   |  Fast (GPU) |
+| `width`/`height`|  Yes                  |  Slow       |
+| `margin`/`top`  |  Yes                  |  Slow       |
 
-Uses variable only.
+---
 
-var(--color, black)
+### Code Task — Hover Lift + Fade-In Animation
 
-Uses black if variable is missing.
-
-Dark Mode
-[data-theme='dark'] {
-  --bg-color: #121212;
-  --text-color: white;
-}
-What Does prefers-color-scheme: dark Do?
-
-Automatically detects if the user prefers dark mode.
-
-@media (prefers-color-scheme: dark) {
-}
-Can JavaScript Read and Change CSS Variables?
-
- Yes
-
-JavaScript can access and modify CSS custom properties.
-
-Code Task
-:root {
-  --primary-color: #F97316;
-  --background-color: white;
-  --text-color: black;
-
-  --font-size-base: 1rem;
-
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 2rem;
-}
-
-body {
-  background: var(--background-color);
-  color: var(--text-color);
-
-  font-size: var(--font-size-base);
-}
-
-[data-theme='dark'] {
-  --background-color: #121212;
-  --text-color: #ffffff;
+```css
+/* Fade-in from below on page load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .card {
-  padding: var(--spacing-md);
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  /* Entrance animation */
+  animation: fadeInUp 0.6s ease-out forwards;
+
+  /* Smooth transition for hover effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+/* Lift up and deepen shadow on hover */
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+}
+```
+
+> **Common triggers for transitions:** `:hover`, `:focus`, `:active`, `:checked`, or JavaScript adding/removing a CSS class.
+
+> **Multiple transitions:** Yes — separate them with commas: `transition: transform 0.3s ease, opacity 0.2s ease;`
+
+---
+
+## Q10 — Responsive Web Design: Media Queries, CSS Variables, and Mobile-First
+
+---
+
+### Part A — Media Queries
+
+A **media query** is a CSS rule that applies styles **only when a certain condition is met** — most commonly a screen size range. They are the foundation of responsive design.
+
+**Syntax:**
+```css
+@media (min-width: 768px) {
+  /* Styles for screens 768px and wider */
+}
+```
+
+#### Standard Industry Breakpoints
+
+| Breakpoint   | Width          | Target Devices            |
+|--------------|----------------|---------------------------|
+| Mobile       | `< 768px`      | Phones (default styles)   |
+| Tablet       | `≥ 768px`      | Tablets, large phones     |
+| Laptop       | `≥ 1024px`     | Laptops, small desktops   |
+| Desktop      | `≥ 1280px`     | Large monitors            |
+
+---
+
+### Part B — Mobile-First Approach
+
+**Mobile-first** means you write your **base styles for mobile screens first**, then use `min-width` media queries to layer in styles for larger screens.
+
+This is the industry standard because:
+- Mobile traffic accounts for the majority of web usage globally
+- It forces prioritization of content (no room for clutter on small screens)
+- Browsers load CSS top-to-bottom — mobile styles are always loaded; desktop enhancements only load when needed
+- It generally produces **lighter, faster pages**
+
+#### Mobile-First vs Desktop-First
+
+```css
+/* MOBILE-FIRST  (use min-width) */
+.grid { grid-template-columns: 1fr; }           /* Mobile: single column */
+@media (min-width: 768px)  { .grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* DESKTOP-FIRST  (use max-width — avoid) */
+.grid { grid-template-columns: repeat(3, 1fr); } /* Desktop: three columns */
+@media (max-width: 1024px) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 768px)  { .grid { grid-template-columns: 1fr; } }
+```
+
+---
+
+### Part C — CSS Variables (Custom Properties)
+
+CSS custom properties (variables) let you **store values in one place** and reuse them throughout your stylesheet. They are defined with `--` prefix inside a selector (typically `:root` for global scope) and accessed with `var()`.
+
+```css
+:root {
+  --color-primary: #f97316;
+  --font-size-base: 1rem;
+}
+
+h1 {
+  color: var(--color-primary);
+  font-size: calc(var(--font-size-base) * 2.5);
+}
+```
+
+#### `var(--color)` vs `var(--color, fallback)`
+
+- `var(--color)` — uses the variable; if undefined, the property is **invalid**
+- `var(--color, #333)` — uses the variable; if undefined, falls back to `#333`
+
+```css
+color: var(--text-color, #1a1a1a); /* Falls back to #1a1a1a if --text-color is not defined */
+```
+
+#### Can JavaScript read and change CSS variables?
+
+**Yes.** JavaScript can read and write CSS variables at runtime:
+
+```javascript
+// Read
+const value = getComputedStyle(document.documentElement).getPropertyValue('--color-primary');
+
+// Write
+document.documentElement.style.setProperty('--color-primary', '#3b82f6');
+```
+
+---
+
+### `@media (prefers-color-scheme: dark)`
+
+This media query detects the **user's OS-level dark mode preference** and automatically applies your dark theme without requiring any user interaction.
+
+```css
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0f172a;
+    --color-text: #f1f5f9;
+  }
+}
+```
+
+---
+
+### Code Task — Design System with Dark Mode & Responsive Layout
+
+```css
+/* =============================================
+   DESIGN SYSTEM — :root custom properties
+   ============================================= */
+
+:root {
+  /* Colors */
+  --color-bg:         #ffffff;
+  --color-surface:    #f8fafc;
+  --color-border:     #e2e8f0;
+  --color-text:       #1e293b;
+  --color-text-muted: #64748b;
+  --color-primary:    #f97316;
+  --color-primary-hover: #ea6c0a;
+
+  /* Typography */
+  --font-size-xs:   0.75rem;   /* 12px */
+  --font-size-sm:   0.875rem;  /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg:   1.125rem;  /* 18px */
+  --font-size-xl:   1.25rem;   /* 20px */
+  --font-size-2xl:  1.5rem;    /* 24px */
+  --font-size-3xl:  2rem;      /* 32px */
+  --font-size-4xl:  2.5rem;    /* 40px */
+
+  /* Spacing */
+  --space-1:  0.25rem;   /* 4px */
+  --space-2:  0.5rem;    /* 8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.16);
+}
+
+
+/* =============================================
+   DARK MODE — via data attribute
+   (can be toggled by JS: document.documentElement.dataset.theme = 'dark')
+   ============================================= */
+
+[data-theme="dark"] {
+  --color-bg:         #0f172a;
+  --color-surface:    #1e293b;
+  --color-border:     #334155;
+  --color-text:       #f1f5f9;
+  --color-text-muted: #94a3b8;
+  --color-primary:    #fb923c;
+  --color-primary-hover: #f97316;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Also support OS-level dark mode preference automatically */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg:         #0f172a;
+    --color-surface:    #1e293b;
+    --color-border:     #334155;
+    --color-text:       #f1f5f9;
+    --color-text-muted: #94a3b8;
+    --color-primary:    #fb923c;
+  }
+}
+
+
+/* =============================================
+   BASE STYLES — Mobile first (no media query = mobile)
+   ============================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+  width: 100%;
+  padding-inline: var(--space-4); /* Mobile: 16px side padding */
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;     /* Mobile: single column */
+  gap: var(--space-4);
+}
+
+h1 { font-size: var(--font-size-2xl); }
+h2 { font-size: var(--font-size-xl); }
+h3 { font-size: var(--font-size-lg); }
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  padding: var(--space-3) var(--space-6);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+
+/* =============================================
+   TABLET — min-width: 768px
+   ============================================= */
 
 @media (min-width: 768px) {
   .container {
-    max-width: 720px;
+    padding-inline: var(--space-8); /* More breathing room */
+    max-width: 768px;
+    margin-inline: auto;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr; /* Two columns on tablet */
+    gap: var(--space-6);
+  }
+
+  h1 { font-size: var(--font-size-3xl); }
+  h2 { font-size: var(--font-size-2xl); }
+
+  .card {
+    padding: var(--space-6);
+    box-shadow: var(--shadow-md);
   }
 }
 
+
+/* =============================================
+   DESKTOP — min-width: 1024px
+   ============================================= */
+
 @media (min-width: 1024px) {
   .container {
-    max-width: 960px;
+    max-width: 1100px;
+    padding-inline: var(--space-12);
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr); /* Three columns on desktop */
+    gap: var(--space-8);
+  }
+
+  h1 { font-size: var(--font-size-4xl); }
+  h2 { font-size: var(--font-size-3xl); }
+  h3 { font-size: var(--font-size-2xl); }
+
+  .card {
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
   }
 }
+```
